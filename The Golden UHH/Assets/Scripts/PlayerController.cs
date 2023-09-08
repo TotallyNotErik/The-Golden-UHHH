@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public float moveSpeed;
     public float jumpForce;
     public GameObject hatObject;
+    public Material goldEgg;
+    public Material def;
 
     [HideInInspector]
     public float curHatTime;
@@ -82,6 +84,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public void SetHat (bool hasHat)
     {
         hatObject.SetActive(hasHat);
+        if (hasHat)
+            this.transform.gameObject.GetComponent<Renderer>().material = goldEgg;
+        else
+            this.transform.gameObject.GetComponent<Renderer>().material = def;
     }
     void OnCollisionEnter (Collision collision)
     {

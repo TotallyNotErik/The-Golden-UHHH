@@ -305,6 +305,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 8
   hatObject: {fileID: 8711611725441447098}
+  goldEgg: {fileID: 2100000, guid: dde11e82ec256074d84f271570a3c0a5, type: 2}
+  def: {fileID: 2100000, guid: 035d651dbd73f614193744fd0a61969a, type: 2}
   curHatTime: 0
   rig: {fileID: 8711611724724095474}
 --- !u!1 &8711611725147724737
