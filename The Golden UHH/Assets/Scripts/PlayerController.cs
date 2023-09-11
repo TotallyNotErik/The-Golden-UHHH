@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         GameManager.instance.players[id - 1] = this;
 
-        //if (photonView.IsMine)
-            //rig.isKinematic = true;
+        if (!photonView.IsMine)
+            rig.isKinematic = true;
 
         if (id == 1)
             GameManager.instance.GiveHat(id, true);

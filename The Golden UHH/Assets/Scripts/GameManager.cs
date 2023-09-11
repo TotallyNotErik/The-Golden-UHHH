@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public PlayerController[] players;
     public int playerWithHat;
     private int playersInGame;
+    private int players_num = 1;
 
     public static GameManager instance;
 
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
         photonView.RPC("ImInGame", RpcTarget.All);
+        players_num = playersInGame - 1;
+        Debug.Log(players_num);
     }
 
     // Update is called once per frame
@@ -42,14 +45,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     void ImInGame()
     {
         playersInGame++;
-        if(playersInGame == PhotonNetwork.PlayerList.Length)
+        if (playersInGame == PhotonNetwork.PlayerList.Length)
             SpawnPlayer();
     }
 
     void SpawnPlayer()
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLocation, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity);
-
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLocation, spawnPoints[players_num].position, Quaternion.identity);
         PlayerController playerScript = playerObj.GetComponent<PlayerController>();
 
         playerScript.photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
