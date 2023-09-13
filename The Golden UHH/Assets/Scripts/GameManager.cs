@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float timeToWin;
     public float invincibleDuration;
     private float hatPickupTime;
+    public bool started = false;
 
     [Header("Players")]
     public string playerPrefabLocation;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         photonView.RPC("ImInGame", RpcTarget.All);
         players_num = playersInGame - 1;
         Debug.Log(players_num);
+        Invoke("StartGame", 6f);
     }
 
     // Update is called once per frame
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void SpawnPlayer()
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLocation, spawnPoints[players_num].position, Quaternion.identity);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLocation, spawnPoints[Random.Range(0,spawnPoints.Length)].position, Quaternion.identity);
         PlayerController playerScript = playerObj.GetComponent<PlayerController>();
 
         playerScript.photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
@@ -100,5 +102,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
         NetworkManager.instance.ChangeScene("Menu");
+    }
+
+    void StartGame()
+    {
+        started = true;
+        GameUI.instance.SetGoScreen();
     }
 }

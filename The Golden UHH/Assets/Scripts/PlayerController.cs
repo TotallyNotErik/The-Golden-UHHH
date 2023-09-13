@@ -3,6 +3,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     [HideInInspector]
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject hatObject;
     public Material goldEgg;
     public Material def;
+    public Vector3[] spawnLocations;
 
     [HideInInspector]
     public float curHatTime;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Components")]
     public Rigidbody rig;
     public Player photonPlayer;
+    public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +42,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (photonView.IsMine)
+        if (photonView.IsMine && GameManager.instance.started)
         {
             Move();
 
@@ -77,8 +80,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (!photonView.IsMine)
             rig.isKinematic = true;
 
-        if (id == 1)
-            GameManager.instance.GiveHat(id, true);
+        Invoke("teleportToStart", 5 + 0.5f * id);
+    }
+
+    [PunRPC]
+    public void teleportToStart()
+    {
+        this.transform.position = spawnLocations[id - 1];
+        anim.SetTrigger("Spawned");
     }
 
     public void SetHat (bool hasHat)
@@ -103,6 +112,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                     GameManager.instance.photonView.RPC("GiveHat", RpcTarget.All, id, false);
                 }
             }
+        }
+        if (collision.gameObject.CompareTag("Pickup"))
+        {
+            Debug.Log("Yo");
+            GameManager.instance.photonView.RPC("GiveHat", RpcTarget.All, id, true);
+            Destroy(collision.gameObject);
         }
     }
 

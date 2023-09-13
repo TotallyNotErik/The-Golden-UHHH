@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviourPunCallbacks
 {
     public PlayerUIContainer[] playerContainers;
     public TextMeshProUGUI winText;
+    public GameObject GoScreen;
 
     public static GameUI instance;
     void Awake()
@@ -55,7 +56,10 @@ public class GameUI : MonoBehaviourPunCallbacks
         winText.gameObject.SetActive(true);
         winText.text = winnerName + " wins";
     }
-
+    public void SetGoScreen()
+    {
+        GoScreen.SetActive(true);
+    }
 }
 
 [System.Serializable]
