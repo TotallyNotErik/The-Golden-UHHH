@@ -1,4 +1,4 @@
 # Le Chapeau
-There are 2 warnings, one about audio and the other about photon being in dev mode, which I don't know how to fix either at the moment
+Menu UI is unfinished, but game mechanics are solid, so the game is in a playable state 100%
 Play Me!
 https://totallynoterik.github.io/The-Golden-UHHH/
