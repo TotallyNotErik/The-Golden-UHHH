@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             if (hatObject.activeInHierarchy)
                 curHatTime += Time.deltaTime;
         }
+        if (GameManager.instance.playersLeft == 1 && hatObject.activeInHierarchy)
+        {
+            GameManager.instance.gameEnded = true;
+            GameManager.instance.photonView.RPC("WinGame", RpcTarget.All, id);
+        }
     }
 
     void Move ()

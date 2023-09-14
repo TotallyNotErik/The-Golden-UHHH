@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int playerWithHat;
     private int playersInGame;
     private int players_num = 1;
+    public int playersLeft;
 
     public static GameManager instance;
 
@@ -33,10 +34,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
+        playersLeft = PhotonNetwork.PlayerList.Length;
         photonView.RPC("ImInGame", RpcTarget.All);
         players_num = playersInGame - 1;
         Debug.Log(players_num);
-        Invoke("StartGame", 6f);
+        Invoke("SetOrb", 3.5f);
+        Invoke("StartGame", 7f);
     }
 
     // Update is called once per frame
@@ -76,7 +79,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (!initialGive)
             GetPlayer(playerWithHat).SetHat(false);
         else
-            Destroy(Pickup);
+            Pickup.SetActive(false);
 
         playerWithHat = playerID;
         GetPlayer(playerID).SetHat(true);
@@ -111,5 +114,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         started = true;
         GameUI.instance.SetGoScreen();
+    }
+
+    void SetOrb()
+    {
+        Pickup.SetActive(true);
     }
 }
