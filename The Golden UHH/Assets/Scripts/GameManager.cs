@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void StartGame()
     {
         started = true;
-        GameUI.instance.SetGoScreen();
+        //GameUI.instance.SetGoScreen();
     }
     [PunRPC]
     public void SetOrb()
