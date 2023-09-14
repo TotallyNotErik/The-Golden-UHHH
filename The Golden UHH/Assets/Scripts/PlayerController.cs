@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("Yo");
             GameManager.instance.photonView.RPC("GiveHat", RpcTarget.All, id, true);
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
         }
     }
 

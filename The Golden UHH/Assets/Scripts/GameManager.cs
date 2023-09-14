@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float invincibleDuration;
     private float hatPickupTime;
     public bool started = false;
+    public GameObject Pickup;
 
     [Header("Players")]
     public string playerPrefabLocation;
@@ -74,6 +75,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (!initialGive)
             GetPlayer(playerWithHat).SetHat(false);
+        else
+            Destroy(Pickup);
 
         playerWithHat = playerID;
         GetPlayer(playerID).SetHat(true);

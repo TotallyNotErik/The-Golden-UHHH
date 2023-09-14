@@ -592,6 +592,7 @@ MonoBehaviour:
   timeToWin: 15
   invincibleDuration: 0.5
   started: 0
+  Pickup: {fileID: 563633256}
   playerPrefabLocation: Player
   spawnPoints:
   - {fileID: 1666273695}
