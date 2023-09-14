@@ -12,7 +12,7 @@ public class DeathTrigger : MonoBehaviour
             if(col.gameObject.GetComponent<PlayerController>().hatObject.activeInHierarchy)
             {
                 col.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-                GameManager.instance.Pickup.SetActive(true);
+                GameManager.instance.photonView.RPC("SetOrb", RpcTarget.All);
                 col.gameObject.SetActive(false);
             }
             GameManager.instance.playersLeft--;

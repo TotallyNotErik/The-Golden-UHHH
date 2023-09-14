@@ -115,8 +115,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         started = true;
         GameUI.instance.SetGoScreen();
     }
-
-    void SetOrb()
+    [PunRPC]
+    public void SetOrb()
     {
         Pickup.SetActive(true);
     }
