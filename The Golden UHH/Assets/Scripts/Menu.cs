@@ -12,14 +12,17 @@ public class Menu : MonoBehaviourPunCallbacks
     [Header("Screens")]
     public GameObject mainScreen;
     public GameObject lobbyScreen;
+    public GameObject TitleScreen;
 
     [Header("Main Screen")]
     public Button createRoomButton;
     public Button joinRoomButton;
 
     [Header("Lobby Screen")]
+    public GameObject[] playerlists;
     public TextMeshProUGUI playerListText;
     public Button startGameButton;
+    public Animator[] anim;
 
 
     void Start()
@@ -43,6 +46,7 @@ public class Menu : MonoBehaviourPunCallbacks
     {
         mainScreen.SetActive(false);
         lobbyScreen.SetActive(false);
+        TitleScreen.SetActive(false);
 
         screen.SetActive(true);
     }
@@ -67,11 +71,21 @@ public class Menu : MonoBehaviourPunCallbacks
     public void UpdateLobbyUI ()
     {
         playerListText.text = "";
-
+        int i = 0;
         foreach(Player player in PhotonNetwork.PlayerList)
         {
-            playerListText.text += player.NickName + "\n";
+            playerlists[i].SetActive(true);
+            playerlists[i].gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = player.NickName;
+            i++;
         }
+        for (i = 3; i >= PhotonNetwork.PlayerList.Length; i--)
+        {
+            if (playerlists[i].activeInHierarchy)
+            {
+                anim[i].SetTrigger("Exit");
+            }
+        }
+        Invoke("DisablePlayerContainers", 1f);
         if(PhotonNetwork.IsMasterClient)
             startGameButton.interactable = true;
         else
@@ -94,11 +108,45 @@ public class Menu : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
         SetScreen(mainScreen);
     }
+    
+    public void OnMainScreenButton()
+    {
+        SetScreen(mainScreen);
+    }
 
     public void OnStartGameButton ()
     {
-        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Game");
+        photonView.RPC("AnimateOut", RpcTarget.All);
+        Invoke("StartTheGame", 1f);
+    }
+    [PunRPC]
+    public void AnimateOut ()
+    {
+        for (int i = 0; i < anim.Length; i++)
+        {
+            if (i < playerlists.Length)
+            {
+                if (playerlists[i].activeInHierarchy)
+                    anim[i].SetTrigger("Exit");
+            }
+            else
+                anim[i].SetTrigger("Exit");
+        }
     }
 
+    public void StartTheGame()
+    {
+        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Game");
+    }
+    public void DisablePlayerContainers()
+    {
+        for (int i = 3; i >= PhotonNetwork.PlayerList.Length; i--)
+        {
+            if (playerlists[i].activeInHierarchy)
+            {
+                playerlists[i].SetActive(false);
+            }
+        }
+    }
 }
 
