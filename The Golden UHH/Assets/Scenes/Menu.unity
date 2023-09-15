@@ -3861,7 +3861,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Golden
+  m_text: The Golden-
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d6377cf9a17c2054f93833ef1198e49b, type: 2}
   m_sharedMaterial: {fileID: 6546199508549758183, guid: d6377cf9a17c2054f93833ef1198e49b, type: 2}
